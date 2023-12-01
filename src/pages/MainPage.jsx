@@ -1,6 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
-import mainImage from "../assets/main-image.gif";
+import mainImage from "../assets/main-image (2).gif";
 import Footer from "../components/common/Footer";
 import EmojiReview from "../components/main/EmojiReview";
 
