@@ -7,12 +7,12 @@ import CommentCard from "../components/bookdetail/CommentCard";
 import BookCommentList from '../components/bookdetail/BookCommentList';
 
 const BookDetailOutDiv = styled.div`
-    width: 80%;
+    width: 78%;
     background-color: white;
     margin: 0 auto;
     border-radius: 20px;
     box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.16);
-    padding: 40px 50px;
+    padding: 42px 50px;
 `
 
 const BookInfoStatisticsOutDiv = styled.div`

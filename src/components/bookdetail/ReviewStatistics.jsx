@@ -9,7 +9,7 @@ const ReviewStatisticsOutDiv = styled.div`
 `
 const EmojiNameOutDiv = styled.div`
     display: flex;
-    margin-bottom: 15px;
+    margin-bottom: 22px;
     align-items: center;
 `
 
@@ -21,6 +21,12 @@ const EmojiStatisticsEmoji = styled.img`
 const ReviewStatisticsName = styled.div`
     font-size: 19px;
     font-weight: bold;
+`
+
+const BarChartOutDiv = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
 `
 
 const ReviewAI = styled.div`
@@ -49,7 +55,9 @@ function ReviewStatistics() {
                 <EmojiStatisticsEmoji src={emojiStatistics}></EmojiStatisticsEmoji>
                 <ReviewStatisticsName>이모티콘으로 나타낸 리뷰 통계</ReviewStatisticsName>
             </EmojiNameOutDiv>
-            <BarChart />
+            <BarChartOutDiv>
+                <BarChart />
+            </BarChartOutDiv>
             <ReviewAI>
                 <EmojiStatisticsEmoji src={emojiStatistics}></EmojiStatisticsEmoji>
                 <ReviewAIName>AI가 보는 리뷰 통계</ReviewAIName>

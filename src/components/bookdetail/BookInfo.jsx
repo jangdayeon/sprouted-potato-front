@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faFolder } from "@fortawesome/free-solid-svg-icons";
 
 const BookInfoOutDiv = styled.div`
-    width: 45%;
+    width: 47%;
 `
 
 const BookImgTitleOutDiv = styled.div`
@@ -19,7 +19,9 @@ const BookImg = styled.img`
 
 const BookTitleAuthorOutDiv = styled.div`
     margin-top: 3px;
-    margin-left: 10px;
+    margin-left: 15px;
+    letter-spacing:0.5px;
+    line-height: 18px;
 `
 
 const BookTitle = styled.div`

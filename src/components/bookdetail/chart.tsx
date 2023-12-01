@@ -78,13 +78,19 @@ export const data = {
       label: '분류 1',
       data: [5, 1, 5, 4, 2, 3, 0],
       backgroundColor: '#FDF6C2',
-      borderRadius: 15
+      borderRadius: 12
     }
   ]
 };
 
+const Main = styled.div`
+  width: 80%;
+`
+
 export default function BarChart() {
   return (
-      <Bar id="myUniqueBarChartId" options={options} data={data} border-radius="15px" />
+    <Main>
+      <Bar id="myUniqueBarChartId" options={options} data={data} border-radius="12px" />
+    </Main>
   );
 }

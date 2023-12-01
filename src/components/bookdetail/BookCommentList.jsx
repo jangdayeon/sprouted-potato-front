@@ -48,6 +48,11 @@ const EditButton = styled.div`
     text-align: center;
     line-height: 28px;
     margin-right: 5px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #FDF6C2;
+    }
 `
 
 const DeleteButton = styled.div`
@@ -57,6 +62,11 @@ const DeleteButton = styled.div`
     border-radius: 5px;
     text-align: center;
     line-height: 28px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #FDF6C2;
+    }
 `
 
 const CommentBox = styled.div`

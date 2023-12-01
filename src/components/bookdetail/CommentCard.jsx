@@ -97,12 +97,12 @@ const DoneButton = styled.div`
     text-align: center;
     line-height: 50px;
     font-family: "Pretendard-Regular";
-    font-weight: bold;
+    font-size: 17px;
 
     &:hover {
         cursor: pointer;
         background-color: #FDF6C2;
-        color: #8C3839;
+        font-weight: bold;
     }
 `
 
@@ -135,7 +135,7 @@ function CommentCard() {
                 <ReviewButtonOutDiv>
                     <PasswordOutDiv>
                         <PasswordName>비밀번호</PasswordName>
-                        <PasswordInput></PasswordInput>
+                        <PasswordInput type='password'></PasswordInput>
                     </PasswordOutDiv>
                     <DoneButton>작성 완료!</DoneButton>
                 </ReviewButtonOutDiv>
