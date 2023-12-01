@@ -134,7 +134,7 @@ function BookCommentList() {
                     <ReviewerName>{comment.reviewer} 님</ReviewerName>
                     <PwdNameOutDiv>
                         <PwdName>비밀번호</PwdName>
-                        <PwdInput type='password' value={comment.pwd}></PwdInput>
+                        <PwdInput type='password'></PwdInput>
                         <EditButton>수정</EditButton>
                         <DeleteButton>삭제</DeleteButton>
                     </PwdNameOutDiv>

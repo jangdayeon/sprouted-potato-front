@@ -46,12 +46,18 @@ const ReviewerName = styled.div`
 
 const ReviewerEmoji = styled.div`
     font-size: 25px;
-    opacity: 0.5;
     >span {
+        opacity: 0.5;
         margin-right: 10px;
+
+        &:hover {
+            opacity: 1.0;
+            cursor: pointer;
+        }
     }
-    &:hover {
-        cursor: pointer;
+
+    .clicked {
+        opacity: 1.0;
     }
 `
 
@@ -109,6 +115,11 @@ const DoneButton = styled.div`
 
 function CommentCard() {
     const [reviewerName, setReviewerName] = useState("독서하는 감자");
+    const [clickEmojiNum, setClickEmojiNum] = useState(0);
+
+    const emojiOnClickHandle = (num) => {
+        setClickEmojiNum(num);
+    };
 
     return (
         <>
@@ -121,13 +132,13 @@ function CommentCard() {
                     <ReviewerNameEmojiOutDiv>
                         <ReviewerName>{reviewerName}</ReviewerName>
                         <ReviewerEmoji>
-                            <span>😄</span>
-                            <span>😭</span>
-                            <span>🥹</span>
-                            <span>🥱</span>
-                            <span>😡</span>
-                            <span>😔</span>
-                            <span>😍</span>
+                            <span value="😄" onClick={() => emojiOnClickHandle(1)} key="1" className={`${(clickEmojiNum === 1) ? 'clicked' : ''}`}>😄</span>
+                            <span value="😭" onClick={() => emojiOnClickHandle(2)} key="2" className={`${(clickEmojiNum === 2) ? 'clicked' : ''}`}>😭</span>
+                            <span value="🥹" onClick={() => emojiOnClickHandle(3)} key="3" className={`${(clickEmojiNum === 3) ? 'clicked' : ''}`}>🥹</span>
+                            <span value="🥱" onClick={() => emojiOnClickHandle(4)} key="4" className={`${(clickEmojiNum === 4) ? 'clicked' : ''}`}>🥱</span>
+                            <span value="😡" onClick={() => emojiOnClickHandle(5)} key="5" className={`${(clickEmojiNum === 5) ? 'clicked' : ''}`}>😡</span>
+                            <span value="😔" onClick={() => emojiOnClickHandle(6)} key="6" className={`${(clickEmojiNum === 6) ? 'clicked' : ''}`}>😔</span>
+                            <span value="😍" onClick={() => emojiOnClickHandle(7)} key="7" className={`${(clickEmojiNum === 7) ? 'clicked' : ''}`}>😍</span>
                         </ReviewerEmoji>
                     </ReviewerNameEmojiOutDiv>
                     <ReviewerInput></ReviewerInput>
