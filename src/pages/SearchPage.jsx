@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router";
 import styled from 'styled-components';
-import { SearchResult } from "../components/search/SearchData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 const SearchPageOutDiv = styled.div`
     background-color: white;
@@ -75,9 +76,29 @@ const SearchPublisher = styled.div``
 
 function SearchPage() {
     const [SearchValue, setSearchValue] = useState('푸바오');
+    const [SearchResult, setSearchResult] = useState([]);
     const navigate = useNavigate();
+    const { state } = useLocation();
+
+    let lastSegment = state.lastSegment;
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const url = "http://localhost:8080/search/" + lastSegment;
+                const response = await axios.get(url);
+                setSearchValue(lastSegment);
+                setSearchResult(response.data.data);
+            } catch(error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, [lastSegment]);
     
     const goBookDetailPage = (isbn) => {
+        console.log(isbn);
         navigate(`/bookdetail/${isbn}`);
     }
 
@@ -87,7 +108,7 @@ function SearchPage() {
             {SearchResult.map((book) => {
                 return (
                     <SearchListDiv onClick={() => goBookDetailPage(book.isbn)}>
-                        <SearchImg src={book.bookimg}></SearchImg>
+                        <SearchImg src={book.cover}></SearchImg>
                         <SearchTitleAuthorOutDiv>
                             <SearchTitle>{book.title}</SearchTitle>
                             <SearchAuthor>{book.author}</SearchAuthor>

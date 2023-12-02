@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import logo from "../../assets/header-potato-logo.png"
+import logo from "../../assets/header-potato-logo.png";
 
 const HeaderOutDiv = styled.div`
     width: 100%;
@@ -49,11 +50,35 @@ const SearchBarInput = styled.input`
 `
 
 function Header() {
+    const [searchValue, setSearchValue] = useState('');
+    const navigate = useNavigate();
+
+    const searchInputValue = (e) => {
+        setSearchValue(e.target.value);
+    }
+
+    const goSearchPage = () => {
+        navigate("/search/" + searchValue, {state: {
+            lastSegment: searchValue
+        }});
+    };
+
+    const handleOnKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            goSearchPage();
+        }
+      };
+
     return (
         <HeaderOutDiv>
             <LogoImage src={logo}></LogoImage>
             <SearchBarOutDiv>
-                <SearchBarInput placeholder="책을 검색해 보세요!"></SearchBarInput>
+                <SearchBarInput placeholder="책을 검색해 보세요!"
+                    type="text"
+                    value={searchValue}
+                    onKeyDown={handleOnKeyPress} 
+                    onChange={searchInputValue}>
+                </SearchBarInput>
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
             </SearchBarOutDiv>
         </HeaderOutDiv>

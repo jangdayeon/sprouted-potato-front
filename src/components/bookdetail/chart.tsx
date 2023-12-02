@@ -71,23 +71,31 @@ export const options = {
 
 const labels = ['😄', '😭', '🥹', '🥱', '😡', '😔', '😍'];
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: '분류 1',
-      data: [5, 1, 5, 4, 2, 3, 0],
-      backgroundColor: '#FDF6C2',
-      borderRadius: 12
-    }
-  ]
-};
+interface emojiStatsType {
+  emojiStats: number;
+}
+
+const emojiStatsTypeName = ({emojiStats}: emojiStatsType) => {
+	return emojiStats;
+}
 
 const Main = styled.div`
   width: 80%;
 `
 
-export default function BarChart() {
+export default function BarChart(props:emojiStatsType) {
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: '분류 1',
+        data: props.emojiStats,
+        backgroundColor: '#FDF6C2',
+        borderRadius: 12
+      }
+    ]
+  };
+
   return (
     <Main>
       <Bar id="myUniqueBarChartId" options={options} data={data} border-radius="12px" />

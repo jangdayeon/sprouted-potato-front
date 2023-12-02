@@ -11,7 +11,7 @@ function AppRouter() {
         <Routes>
             <Route path="/" element={<Layout />}>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/search" element={<SearchPage />} />
+                <Route path="/search/:searchWord" element={<SearchPage />} />
                 <Route path="/bookdetail/:isbn" element={<BookDetailPage />} />
             </Route>
         </Routes>

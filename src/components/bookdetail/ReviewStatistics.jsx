@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import BarChart from "./chart.tsx";
 import emojiStatistics from "../../assets/book-statistics.png";
 import DoughnutChart from "./doughnut.tsx";
+import axios from "axios";
 
 const ReviewStatisticsOutDiv = styled.div`
     width: 45%;
@@ -49,6 +50,27 @@ const ChartOutDiv = styled.div`
 
 
 function ReviewStatistics() {
+
+    const [emojiStats, setEmojiStats] = useState([]);
+
+    const currentPath = window.location.pathname;
+    const lastSegment = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const url = "http://localhost:8080/bookdetail/" + lastSegment;
+                const response = (await axios.get(url)).data;
+                setEmojiStats([response.emoji1, response.emoji2, response.emoji3,
+                    response.emoji4, response.emoji5, response.emoji6, response.emoji7]);
+            } catch(error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <ReviewStatisticsOutDiv>
             <EmojiNameOutDiv>
@@ -56,7 +78,7 @@ function ReviewStatistics() {
                 <ReviewStatisticsName>이모티콘으로 나타낸 리뷰 통계</ReviewStatisticsName>
             </EmojiNameOutDiv>
             <BarChartOutDiv>
-                <BarChart />
+                <BarChart emojiStats={emojiStats} />
             </BarChartOutDiv>
             <ReviewAI>
                 <EmojiStatisticsEmoji src={emojiStatistics}></EmojiStatisticsEmoji>
