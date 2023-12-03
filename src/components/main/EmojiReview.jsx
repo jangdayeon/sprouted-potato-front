@@ -82,6 +82,7 @@ function EmojiReview() {
         const fetchData = async () => {
             try {
               const url = 'http://localhost:8080/main/1/'+radioClicked;
+              console.log(url);
               const response = await axios.get(url);
               const responseData = response.data.data;
               setBookList1(responseData);

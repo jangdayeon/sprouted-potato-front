@@ -3,11 +3,7 @@ import ItemsCarousel from 'react-items-carousel';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
-
-// const ListDiv = styled.div`
-//     height : 200px;
-//     background-color : gray;
-// `
+import { useNavigate } from "react-router-dom";
 
 const SlideBtn = styled.button`
     background-color : white;
@@ -23,7 +19,7 @@ const SlideBtn = styled.button`
 `
 
 const BookListContainer = styled.div`
-
+    cursor :pointer;
 `;
 const BookImage = styled.img`
   width: 100%;
@@ -67,6 +63,11 @@ function ListSet(props) {
     }
   }, [props.bookList]);
 
+  const navigate = useNavigate();
+  const goDetailPage = (isbn) => {
+    navigate(`/bookDetail/`+isbn);
+  };
+
   return (
     <div style={{ padding: `0 ${chevronWidth}px` }}>
       <ItemsCarousel
@@ -81,7 +82,13 @@ function ListSet(props) {
       >
         {bookListResponse.map((book) => {
           return (
-            <BookListContainer key={book.isbn}>
+            <BookListContainer key={book.isbn} 
+            onClick={() =>
+              goDetailPage(
+                book.isbn
+              )
+            }
+            >
               <BookImage src={book.cover} alt="bookimg" />
               <BookDetailContainer>
                 <BookListContent>

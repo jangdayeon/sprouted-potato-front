@@ -2,6 +2,7 @@ import { React, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faFolder } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 const BookInfoOutDiv = styled.div`
     width: 47%;
@@ -30,14 +31,20 @@ const BookTitle = styled.div`
     line-height: normal;
     margin-bottom: 5px;
 `
+const BookSubTitle = styled.div`
+    font-weight: normal;
+    font-size: 1em;
+    line-height: normal;
+    margin-bottom: 5px;
+`
 
 const BookAuthor = styled.div`
-    font-size: 15px;
+    font-size: 0.8em;
     margin-bottom: 3px;
 `
 
 const BookPublisher = styled.div`
-    font-size: 15px;
+    font-size: 0.8em;
     line-height: normal;
 `
 
@@ -79,29 +86,56 @@ const BookDescription = styled.div`
 
 
 function BookInfo() {
-    const [bookInfo, setBookInfo] = useState({
-        isbn: "9791171710102",
-        title: "전지적 푸바오 시점 - 판다월드의 작은할부지 송바오가 전하는 푸바오의 뚠빵한 하루",
-        author: "송영관(에버랜드 동물원) (지은이), 송영관(에버랜드 동물원), 류정훈(에버랜드 커뮤니케이션 그룹) (사진)",
-        publisher: "위즈덤하우스",
-        bookimg: "https://image.aladin.co.kr/product/32806/58/cover/k832936705_1.jpg",
-        category: "국내도서>에세이>사진/그림 에세이",
-        description: "푸바오의 작은할부지 송바오가 전하는 판다월드 바오패밀리의 귀엽고 사랑스러운 일상 포토에세이. 20년차 사육사이자 푸바오의 영원한 작은할부지 ‘송바오’ 송영관 작가는 푸바오를 향한 애정에 보답하고, 푸바오와 판다월드의 이야기를 전하고자 《전지적 푸바오 시점》을 출간한다."
-    });
+    const [bookInfo, setBookInfo] = useState([]);
+    const [firstPart, setFirstPart] = useState('');
+    const [secondPart, setSecondPart] = useState('');
+
+    const currentPath = window.location.pathname;
+    const lastSegment = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    useEffect(() => {
+        const BookData = async () => {
+          try {
+            const response = await axios.get(`http://localhost:8080/booksDetail/`+lastSegment);
+            const data = response.data.data;
+            setBookInfo(data);
+            const title = data.title;
+    
+            // "-"를 기준으로 나누기
+            const firstHyphenIndex = title.indexOf(" - ");
+    
+            // "-"가 없는 경우
+            if (firstHyphenIndex === -1) {
+              setFirstPart(title);
+              setSecondPart('');
+            } else {
+              // 첫 번째 부분 설정
+              setFirstPart(title.slice(0, firstHyphenIndex));
+    
+              // 두 번째 부분 설정 (첫 번째 "-" 이후의 부분)
+              setSecondPart(title.slice(firstHyphenIndex));
+            }
+          } catch (error) {
+            console.error("Error fetching user data", error);
+          }
+        };
+    
+        BookData();
+      }, []);
     const [isInfoExpanded, setIsInfoExpanded] = useState(false);
 
     return (
         <BookInfoOutDiv>
             <BookImgTitleOutDiv>
-                <BookImg src={bookInfo.bookimg}></BookImg>
+                <BookImg src={bookInfo.cover}></BookImg>
                 <BookTitleAuthorOutDiv>
-                    <BookTitle>{bookInfo.title}</BookTitle>
+                    <BookTitle>{firstPart}</BookTitle>
+                    <BookSubTitle>{secondPart}</BookSubTitle>
                     <BookAuthor>{bookInfo.author}</BookAuthor>
                     <BookPublisher>{bookInfo.publisher}</BookPublisher>
                 </BookTitleAuthorOutDiv>
             </BookImgTitleOutDiv>
             <CategoryName><FontAwesomeIcon icon={faFolder} />카테고리</CategoryName>
-            <BookCategory>{bookInfo.category}</BookCategory>
+            <BookCategory>{bookInfo.categoryName}</BookCategory>
             <DescriptionName onClick={() => setIsInfoExpanded(!isInfoExpanded)} isInfoExpanded={isInfoExpanded}><FontAwesomeIcon icon={faCircleInfo} />책 정보</DescriptionName>
             {isInfoExpanded && <BookDescription>{bookInfo.description}</BookDescription>}
         </BookInfoOutDiv>
