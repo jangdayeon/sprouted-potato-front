@@ -4,6 +4,7 @@ import writeHand from "../../assets/write-hand.png";
 import { NickNameList } from "../../assets/nickNameList";
 import axios from "axios";
 import swal from "sweetalert";
+import ClovaSentiment from './ClovaTest';
 
 const BookReviewNameOutDiv = styled.div`
     display: flex;
@@ -160,6 +161,10 @@ function CommentCard(props) {
             } else {
                 try {
                     const url = "http://localhost:8080/bookdetail/new";
+
+                    const responseSentiment = ClovaSentiment(saveContents);
+                    console.log(responseSentiment);
+
                     const response = await axios.post(url, {
                         name: reviewerName,
                         content: saveContents,
