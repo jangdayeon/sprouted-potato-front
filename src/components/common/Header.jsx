@@ -22,6 +22,9 @@ const HeaderOutDiv = styled.div`
 
 const LogoImage = styled.img`
     width: 20%;
+    &:hover {
+        cursor: pointer;
+    }
 `
 
 const SearchBarOutDiv = styled.div`
@@ -53,6 +56,10 @@ function Header() {
     const [searchValue, setSearchValue] = useState('');
     const navigate = useNavigate();
 
+    const mainNavigateHandle = () => {
+        navigate("/");
+    }
+
     const searchInputValue = (e) => {
         setSearchValue(e.target.value);
     }
@@ -67,11 +74,11 @@ function Header() {
         if (e.key === 'Enter') {
             goSearchPage();
         }
-      };
+    };
 
     return (
         <HeaderOutDiv>
-            <LogoImage src={logo}></LogoImage>
+            <LogoImage src={logo} onClick={mainNavigateHandle}></LogoImage>
             <SearchBarOutDiv>
                 <SearchBarInput placeholder="책을 검색해 보세요!"
                     type="text"
