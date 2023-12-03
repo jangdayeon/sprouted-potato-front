@@ -59,8 +59,6 @@ function EmojiReview() {
     const [radioTextClicked, setRadioTextClicked] = useState("재밌어요");
 
     const handleChange = (e) => {
-        // console.log(`*****handleChange*****`);
-        // console.log(`선택한 값 : ${e.target.value}`);
         setRadioClicked(e.target.value);
       };
       
@@ -82,14 +80,11 @@ function EmojiReview() {
         const fetchData = async () => {
             try {
               const url = 'http://localhost:8080/main/1/'+radioClicked;
-              console.log(url);
               const response = await axios.get(url);
               const responseData = response.data.data;
               setBookList1(responseData);
-              console.log(responseData);
       
             } catch(error) {
-              console.log(error);
             }
           };
       
@@ -107,7 +102,6 @@ function EmojiReview() {
         //   const response = await axios.get(url);
         //   const responseData = response.data.data;
         //   setBookList2(responseData.concat(responseData));
-        //   console.log(responseData);
   
         } catch(error) {
           console.log(error);
@@ -126,7 +120,6 @@ function EmojiReview() {
           const response = await axios.get(url);
           const responseData = response.data.data;
           setBookList3(responseData);
-          console.log(responseData);
   
         } catch(error) {
           console.log(error);
@@ -145,7 +138,6 @@ function EmojiReview() {
           const response = await axios.get(url);
           const responseData = response.data.data;
           setBookList4(responseData);
-          console.log(responseData);
   
         } catch(error) {
           console.log(error);
@@ -164,7 +156,6 @@ function EmojiReview() {
           const response = await axios.get(url);
           const responseData = response.data.data;
           setBookList5(responseData);
-          console.log(responseData);
   
         } catch(error) {
           console.log(error);

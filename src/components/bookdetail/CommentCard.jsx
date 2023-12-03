@@ -163,7 +163,6 @@ function CommentCard(props) {
                     const url = "http://localhost:8080/bookdetail/new";
 
                     const responseSentiment = ClovaSentiment(saveContents);
-                    console.log(responseSentiment);
 
                     const response = await axios.post(url, {
                         name: reviewerName,
