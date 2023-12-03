@@ -2,6 +2,7 @@ import { React, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CommentList } from "./CommentData"
 import axios from "axios";
+import swal from "sweetalert";
 
 const CommentCardOutDiv = styled.div`
     margin-top: 40px;
@@ -126,53 +127,96 @@ const CommentAIResult = styled.div`
 `
 
 
-function BookCommentList() {
-    const [commentList, setCommentList] = useState([]);
+function BookCommentList(props) {
+    const [savePasswd, setSavePasswd] = useState("");
 
     const currentPath = window.location.pathname;
     const lastSegment = currentPath.substring(currentPath.lastIndexOf('/') + 1);
 
-    useEffect(() => {
-        const fetchData = async () => {
+    const savePasswdHandle = event => {
+        setSavePasswd(event.target.value);
+    }
+
+    const fetchData = async () => {
+        try {
+            const url = "http://localhost:8080/bookdetail/list/" + lastSegment;
+            const response = await axios.get(url);
+            props.setCommentList(response.data.data);
+        } catch(error) {
+            console.log(error);
+        }
+    };
+
+    const deleteData = (reviewId) => {
+        (async () => {
             try {
-                const url = "http://localhost:8080/bookdetail/list/" + lastSegment;
-                const response = await axios.get(url);
-                setCommentList(response.data.data);
-            } catch(error) {
+                const url = "http://localhost:8080/bookdetail/delete/" + reviewId;
+                const response = await axios.post(url, {
+                    passwd: savePasswd
+                });
+                let posts = response.data.data;
+
+                if (posts === "delete comment success") {
+                    fetchData();
+                    swal({
+                        title: "리뷰 삭제 완료!",
+                        text: "리뷰가 삭제되었습니다.",
+                        icon: "success"
+                    })
+                } else if(posts === "passwd is wrong") {
+                    swal({
+                        title: "리뷰 삭제 불가",
+                        text: "비밀번호가 틀렸습니다.",
+                        icon: "error"
+                    })
+                }
+            } catch (error) {
                 console.log(error);
             }
-        };
+        })();
+    }
 
-        fetchData();
-    }, [commentList]);
+    const handleDataDelete = (reviewId) => {
+        swal({
+            icon: "warning",
+            title: "리뷰를 삭제하시겠습니까?",
+            text: "확인을 클릭할 시, 작성된 리뷰가 삭제됩니다.",
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                deleteData(reviewId);
+            }
+        })
+    }
 
     return (
-        commentList.map((comment) => {
+        props.commentList.map((comment) => {
             return (
-                <CommentCardOutDiv>
-                <ReviewerNameButtonOutDiv>
-                    <ReviewerName>{comment.name} 님</ReviewerName>
-                    <PwdNameOutDiv>
-                        <PwdName>비밀번호</PwdName>
-                        <PwdInput type='password'></PwdInput>
-                        <EditButton>수정</EditButton>
-                        <DeleteButton>삭제</DeleteButton>
-                    </PwdNameOutDiv>
-                </ReviewerNameButtonOutDiv>
-                <CommentBox>
-                    <CommentContent>{comment.content}</CommentContent>
-                    <CommentEmojiAIOutDiv>
-                        <CommentEmojiBox>
-                            <CommentEmojiName>이모티콘 리뷰</CommentEmojiName>
-                            <CommentEmoji>{comment.emoji}</CommentEmoji>
-                        </CommentEmojiBox>
-                        <CommentAIBox>
-                            <CommentAIName>AI가 분석한 리뷰</CommentAIName>
-                            <CommentAIResult>{comment.resultAI}</CommentAIResult>
-                        </CommentAIBox>
-                    </CommentEmojiAIOutDiv>
-                </CommentBox>
-            </CommentCardOutDiv>
+                <CommentCardOutDiv key={comment.reviewId}>
+                    <ReviewerNameButtonOutDiv>
+                        <ReviewerName>{comment.name} 님</ReviewerName>
+                        <PwdNameOutDiv>
+                            <PwdName>비밀번호</PwdName>
+                            <PwdInput type='password' onChange={savePasswdHandle}></PwdInput>
+                            <EditButton>수정</EditButton>
+                            <DeleteButton onClick={() => handleDataDelete(comment.reviewId)}>삭제</DeleteButton>
+                        </PwdNameOutDiv>
+                    </ReviewerNameButtonOutDiv>
+                    <CommentBox>
+                        <CommentContent>{comment.content}</CommentContent>
+                        <CommentEmojiAIOutDiv>
+                            <CommentEmojiBox>
+                                <CommentEmojiName>이모티콘 리뷰</CommentEmojiName>
+                                <CommentEmoji>{comment.emoji}</CommentEmoji>
+                            </CommentEmojiBox>
+                            <CommentAIBox>
+                                <CommentAIName>AI가 분석한 리뷰</CommentAIName>
+                                <CommentAIResult>{comment.resultAI}</CommentAIResult>
+                            </CommentAIBox>
+                        </CommentEmojiAIOutDiv>
+                    </CommentBox>
+                </CommentCardOutDiv>
             )
         })
     )

@@ -116,7 +116,7 @@ const DoneButton = styled.div`
 `
 
 
-function CommentCard() {
+function CommentCard(props) {
     const [reviewerName, setReviewerName] = useState("독서하는 감자");
     const [clickEmojiNum, setClickEmojiNum] = useState("");
     const [saveContents, setSaveContents] = useState("");
@@ -175,6 +175,7 @@ function CommentCard() {
                             title: "리뷰 등록 완료!",
                             text: "다른 사람들의 리뷰와 감정 분석을 확인해 보세요!"
                         }).then(() => {
+                            fetchData();
                             setClickEmojiNum("");
                             setSaveContents("");
                             setSavePasswd("");
@@ -188,6 +189,20 @@ function CommentCard() {
             }
         })();
     }
+
+    const fetchData = async () => {
+        try {
+            const url = "http://localhost:8080/bookdetail/list/" + lastSegment;
+            const response = await axios.get(url);
+            props.setCommentList(response.data.data);
+        } catch(error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
         <>

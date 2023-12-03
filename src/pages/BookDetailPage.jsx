@@ -22,6 +22,8 @@ const BookInfoStatisticsOutDiv = styled.div`
 `
 
 function BookDetailPage() {
+    const [commentList, setCommentList] = useState([]);
+
     return (
         <>
         <BookDetailOutDiv>
@@ -29,8 +31,8 @@ function BookDetailPage() {
                 <BookInfo />
                 <ReviewStatistics />
             </BookInfoStatisticsOutDiv>
-            <CommentCard />
-            <BookCommentList />
+            <CommentCard setCommentList={setCommentList}  />
+            <BookCommentList commentList={commentList} setCommentList={setCommentList}/>
         </BookDetailOutDiv>
         </>
     )
