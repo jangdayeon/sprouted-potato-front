@@ -1,6 +1,9 @@
 import { React, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import writeHand from "../../assets/write-hand.png";
+import { NickNameList } from "../../assets/nickNameList";
+import axios from "axios";
+import swal from "sweetalert";
 
 const BookReviewNameOutDiv = styled.div`
     display: flex;
@@ -115,11 +118,76 @@ const DoneButton = styled.div`
 
 function CommentCard() {
     const [reviewerName, setReviewerName] = useState("독서하는 감자");
-    const [clickEmojiNum, setClickEmojiNum] = useState(0);
+    const [clickEmojiNum, setClickEmojiNum] = useState("");
+    const [saveContents, setSaveContents] = useState("");
+    const [savePasswd, setSavePasswd] = useState("");
+    const [reviewRequest, setReviewRequest] = useState({
+        name: "",
+        content: "",
+        emoji: "",
+        isbn: "",
+        reviewPw: ""
+    });
 
-    const emojiOnClickHandle = (num) => {
-        setClickEmojiNum(num);
+    const currentPath = window.location.pathname;
+    const lastSegment = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+
+    const emojiOnClickHandle = (emoji) => {
+        setClickEmojiNum(emoji);
     };
+
+    const saveContentsHandle = event => {
+        setSaveContents(event.target.value);
+    }
+
+    const savePasswdHandle = event => {
+        setSavePasswd(event.target.value);
+    }
+
+    useEffect(() => {
+        let nicknameNum = Math.floor(Math.random() * (NickNameList.length));
+        setReviewerName(NickNameList[nicknameNum]);
+    }, []);
+
+    const handleDataUpload = () => {
+        (async () => {
+            if(saveContents === '' || clickEmojiNum === '' || savePasswd === '') {
+                swal({
+                    icon: "error",
+                    title: "리뷰 등록 실패!",
+                    text: "내용과 이모지, 비밀번호를 모두 채워주세요!"
+                });
+            } else {
+                try {
+                    const url = "http://localhost:8080/bookdetail/new";
+                    const response = await axios.post(url, {
+                        name: reviewerName,
+                        content: saveContents,
+                        emoji: clickEmojiNum,
+                        isbn: lastSegment,
+                        reviewPw: savePasswd
+                    });
+                    let posts = response.data.data;
+
+                    if(posts === "create comment success") {
+                        swal({
+                            icon: "success",
+                            title: "리뷰 등록 완료!",
+                            text: "다른 사람들의 리뷰와 감정 분석을 확인해 보세요!"
+                        }).then(() => {
+                            setClickEmojiNum("");
+                            setSaveContents("");
+                            setSavePasswd("");
+                            let nicknameNum = Math.floor(Math.random() * (NickNameList.length));
+                            setReviewerName(NickNameList[nicknameNum]);
+                        })
+                    }
+                } catch(error) {
+                    console.log(error);
+                }
+            }
+        })();
+    }
 
     return (
         <>
@@ -132,23 +200,23 @@ function CommentCard() {
                     <ReviewerNameEmojiOutDiv>
                         <ReviewerName>{reviewerName}</ReviewerName>
                         <ReviewerEmoji>
-                            <span value="😄" onClick={() => emojiOnClickHandle(1)} key="1" className={`${(clickEmojiNum === 1) ? 'clicked' : ''}`}>😄</span>
-                            <span value="😭" onClick={() => emojiOnClickHandle(2)} key="2" className={`${(clickEmojiNum === 2) ? 'clicked' : ''}`}>😭</span>
-                            <span value="🥹" onClick={() => emojiOnClickHandle(3)} key="3" className={`${(clickEmojiNum === 3) ? 'clicked' : ''}`}>🥹</span>
-                            <span value="🥱" onClick={() => emojiOnClickHandle(4)} key="4" className={`${(clickEmojiNum === 4) ? 'clicked' : ''}`}>🥱</span>
-                            <span value="😡" onClick={() => emojiOnClickHandle(5)} key="5" className={`${(clickEmojiNum === 5) ? 'clicked' : ''}`}>😡</span>
-                            <span value="😔" onClick={() => emojiOnClickHandle(6)} key="6" className={`${(clickEmojiNum === 6) ? 'clicked' : ''}`}>😔</span>
-                            <span value="😍" onClick={() => emojiOnClickHandle(7)} key="7" className={`${(clickEmojiNum === 7) ? 'clicked' : ''}`}>😍</span>
+                            <span value="😄" onClick={() => emojiOnClickHandle("😄")} key="1" className={`${(clickEmojiNum === "😄") ? 'clicked' : ''}`}>😄</span>
+                            <span value="😭" onClick={() => emojiOnClickHandle("😭")} key="2" className={`${(clickEmojiNum === "😭") ? 'clicked' : ''}`}>😭</span>
+                            <span value="🥹" onClick={() => emojiOnClickHandle("🥹")} key="3" className={`${(clickEmojiNum === "🥹") ? 'clicked' : ''}`}>🥹</span>
+                            <span value="🥱" onClick={() => emojiOnClickHandle("🥱")} key="4" className={`${(clickEmojiNum === "🥱") ? 'clicked' : ''}`}>🥱</span>
+                            <span value="😡" onClick={() => emojiOnClickHandle("😡")} key="5" className={`${(clickEmojiNum === "😡") ? 'clicked' : ''}`}>😡</span>
+                            <span value="😔" onClick={() => emojiOnClickHandle("😔")} key="6" className={`${(clickEmojiNum === "😔") ? 'clicked' : ''}`}>😔</span>
+                            <span value="😍" onClick={() => emojiOnClickHandle("😍")} key="7" className={`${(clickEmojiNum === "😍") ? 'clicked' : ''}`}>😍</span>
                         </ReviewerEmoji>
                     </ReviewerNameEmojiOutDiv>
-                    <ReviewerInput></ReviewerInput>
+                    <ReviewerInput onChange={saveContentsHandle} value={saveContents}></ReviewerInput>
                 </ReviewBox>
                 <ReviewButtonOutDiv>
                     <PasswordOutDiv>
                         <PasswordName>비밀번호</PasswordName>
-                        <PasswordInput type='password'></PasswordInput>
+                        <PasswordInput type='password' onChange={savePasswdHandle} value={savePasswd}></PasswordInput>
                     </PasswordOutDiv>
-                    <DoneButton>작성 완료!</DoneButton>
+                    <DoneButton onClick={handleDataUpload}>작성 완료!</DoneButton>
                 </ReviewButtonOutDiv>
             </BookReviewButtonOutDiv>
         </>

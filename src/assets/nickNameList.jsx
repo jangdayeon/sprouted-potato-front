@@ -1,4 +1,4 @@
-export default nickNameList = [
+export const NickNameList = [
     "차가운눈의모험가",
     "환상적인스타덤루키",
     "강렬한향기의로즈",
