@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CommentList } from "./CommentData"
+import axios from "axios";
 
 const CommentCardOutDiv = styled.div`
     margin-top: 40px;
@@ -126,12 +127,31 @@ const CommentAIResult = styled.div`
 
 
 function BookCommentList() {
+    const [commentList, setCommentList] = useState([]);
+
+    const currentPath = window.location.pathname;
+    const lastSegment = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const url = "http://localhost:8080/bookdetail/list/" + lastSegment;
+                const response = await axios.get(url);
+                setCommentList(response.data.data);
+            } catch(error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, [commentList]);
+
     return (
-        CommentList.map((comment) => {
+        commentList.map((comment) => {
             return (
                 <CommentCardOutDiv>
                 <ReviewerNameButtonOutDiv>
-                    <ReviewerName>{comment.reviewer} 님</ReviewerName>
+                    <ReviewerName>{comment.name} 님</ReviewerName>
                     <PwdNameOutDiv>
                         <PwdName>비밀번호</PwdName>
                         <PwdInput type='password'></PwdInput>
@@ -140,7 +160,7 @@ function BookCommentList() {
                     </PwdNameOutDiv>
                 </ReviewerNameButtonOutDiv>
                 <CommentBox>
-                    <CommentContent>{comment.contents}</CommentContent>
+                    <CommentContent>{comment.content}</CommentContent>
                     <CommentEmojiAIOutDiv>
                         <CommentEmojiBox>
                             <CommentEmojiName>이모티콘 리뷰</CommentEmojiName>
@@ -148,7 +168,7 @@ function BookCommentList() {
                         </CommentEmojiBox>
                         <CommentAIBox>
                             <CommentAIName>AI가 분석한 리뷰</CommentAIName>
-                            <CommentAIResult>{comment.ai}</CommentAIResult>
+                            <CommentAIResult>{comment.resultAI}</CommentAIResult>
                         </CommentAIBox>
                     </CommentEmojiAIOutDiv>
                 </CommentBox>
