@@ -190,6 +190,30 @@ function BookCommentList(props) {
         })
     }
 
+    const passwdCheck = async (reviewId) => {
+        try {
+            const url = "http://localhost:8080/bookdetail/passwd";
+            const response = await axios.get(url,{ params: {
+                reviewId: reviewId,
+                passwd: savePasswd
+            }});
+            if(response.data.data === "true") {
+                setSavePasswd("");
+                props.setReviewId(reviewId);
+                props.setIsOpen(true);
+            } else {
+                setSavePasswd("");
+                swal({
+                    icon: "error",
+                    title: "수정 불가",
+                    text: "비밀번호가 맞지 않으므로 수정이 불가합니다."
+                })
+            }
+        } catch(error) {
+            console.log(error);
+        }
+    };
+
     return (
         props.commentList.map((comment) => {
             return (
@@ -199,7 +223,7 @@ function BookCommentList(props) {
                         <PwdNameOutDiv>
                             <PwdName>비밀번호</PwdName>
                             <PwdInput type='password' onChange={savePasswdHandle}></PwdInput>
-                            <EditButton>수정</EditButton>
+                            <EditButton onClick={() => passwdCheck(comment.reviewId)}>수정</EditButton>
                             <DeleteButton onClick={() => handleDataDelete(comment.reviewId)}>삭제</DeleteButton>
                         </PwdNameOutDiv>
                     </ReviewerNameButtonOutDiv>

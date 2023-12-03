@@ -5,6 +5,7 @@ import BookInfo from '../components/bookdetail/BookInfo';
 import ReviewStatistics from "../components/bookdetail/ReviewStatistics";
 import CommentCard from "../components/bookdetail/CommentCard";
 import BookCommentList from '../components/bookdetail/BookCommentList';
+import EditModal from '../components/bookdetail/EditModal';
 
 const BookDetailOutDiv = styled.div`
     width: 78%;
@@ -23,6 +24,8 @@ const BookInfoStatisticsOutDiv = styled.div`
 
 function BookDetailPage() {
     const [commentList, setCommentList] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
+    const [reviewId, setReviewId] = useState();
 
     return (
         <>
@@ -32,7 +35,9 @@ function BookDetailPage() {
                 <ReviewStatistics />
             </BookInfoStatisticsOutDiv>
             <CommentCard setCommentList={setCommentList}  />
-            <BookCommentList commentList={commentList} setCommentList={setCommentList}/>
+            <BookCommentList commentList={commentList} setCommentList={setCommentList} 
+                setIsOpen={setIsOpen} setReviewId={setReviewId}/>
+            {isOpen && <EditModal setIsOpen={setIsOpen} reviewId={reviewId} setCommentList={setCommentList} />}
         </BookDetailOutDiv>
         </>
     )
