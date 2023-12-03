@@ -63,7 +63,12 @@ function EmojiReview() {
         // console.log(`선택한 값 : ${e.target.value}`);
         setRadioClicked(e.target.value);
       };
-    
+      
+
+
+      //책 리스트 받아오기(api연결)
+
+    const [bookList1, setBookList1] = useState([]);
     useEffect(()=>{
         switch(radioClicked){
             case "😄": setRadioTextClicked("재밌어요");break;
@@ -74,39 +79,34 @@ function EmojiReview() {
             case "😔": setRadioTextClicked("실망이에요");break;
             case "😍" : setRadioTextClicked("반했어요");break;
         }
+        const fetchData = async () => {
+            try {
+              const url = 'http://localhost:8080/main/1/'+radioClicked;
+              const response = await axios.get(url);
+              const responseData = response.data.data;
+              setBookList1(responseData);
+              console.log(responseData);
+      
+            } catch(error) {
+              console.log(error);
+            }
+          };
+      
+          fetchData();
+
     },[radioClicked]);
 
-    //책 리스트 받아오기(api연결)
-
-    const [bookList1, setBookList1] = useState([]);
-
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const url = 'http://localhost:8080/bestseller';
-          const response = await axios.get(url);
-          const responseData = response.data.data;
-          setBookList1(responseData);
-          console.log(responseData);
-  
-        } catch(error) {
-          console.log(error);
-        }
-      };
-  
-      fetchData();
-    }, []);
 
     const [bookList2, setBookList2] = useState([]);
 
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const url = 'http://localhost:8080/bestseller';
-          const response = await axios.get(url);
-          const responseData = response.data.data;
-          setBookList2(responseData.concat(responseData));
-          console.log(responseData);
+        //   const url = 'http://localhost:8080/main/2';
+        //   const response = await axios.get(url);
+        //   const responseData = response.data.data;
+        //   setBookList2(responseData.concat(responseData));
+        //   console.log(responseData);
   
         } catch(error) {
           console.log(error);
@@ -121,11 +121,11 @@ function EmojiReview() {
     useEffect(() => {
       const fetchData = async () => {
         try {
-        //   const url = 'http://localhost:8080/bestseller';
-        //   const response = await axios.get(url);
-        //   const responseData = response.data.data;
-        //   setBookList3(responseData);
-        //   console.log(responseData);
+          const url = 'http://localhost:8080/main/3';
+          const response = await axios.get(url);
+          const responseData = response.data.data;
+          setBookList3(responseData);
+          console.log(responseData);
   
         } catch(error) {
           console.log(error);
@@ -140,11 +140,11 @@ function EmojiReview() {
     useEffect(() => {
       const fetchData = async () => {
         try {
-        //   const url = 'http://localhost:8080/bestseller';
-        //   const response = await axios.get(url);
-        //   const responseData = response.data.data;
-        //   setBookList4(responseData);
-        //   console.log(responseData);
+          const url = 'http://localhost:8080/main/4';
+          const response = await axios.get(url);
+          const responseData = response.data.data;
+          setBookList4(responseData);
+          console.log(responseData);
   
         } catch(error) {
           console.log(error);
@@ -159,11 +159,11 @@ function EmojiReview() {
     useEffect(() => {
       const fetchData = async () => {
         try {
-        //   const url = 'http://localhost:8080/bestseller';
-        //   const response = await axios.get(url);
-        //   const responseData = response.data.data;
-        //   setBookList5(responseData);
-        //   console.log(responseData);
+          const url = 'http://localhost:8080/bestseller';
+          const response = await axios.get(url);
+          const responseData = response.data.data;
+          setBookList5(responseData);
+          console.log(responseData);
   
         } catch(error) {
           console.log(error);
@@ -210,7 +210,7 @@ function EmojiReview() {
             </ImageOutDiv>
             <Listname>{radioClicked} '{radioTextClicked}'가 많은 순</Listname>
             <ListDiv>
-            <ListSet bookList={bookList2}/>
+            <ListSet bookList={bookList1}/>
             </ListDiv>
             <ListBr/>
             <Listname><FontAwesomeIcon icon={faRobot} /> AI가 분석한 긍정적인 후기 순</Listname>
@@ -219,7 +219,7 @@ function EmojiReview() {
             <Listname><FontAwesomeIcon icon={faThumbsUp} /> 긍정적인 후기 순</Listname>
             <ListSet bookList={bookList3}/>
             <ListBr/>
-            <Listname><FontAwesomeIcon icon={faComments} /> 리뷰 많은 많은 순</Listname>
+            <Listname><FontAwesomeIcon icon={faComments} /> 리뷰 많은 순</Listname>
             <ListSet bookList={bookList4}/>
             <ListBr/>
             <Listname><FontAwesomeIcon icon={faBookBookmark} /> 알라딘 베스트셀러</Listname>
