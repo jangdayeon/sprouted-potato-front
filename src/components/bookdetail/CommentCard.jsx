@@ -188,6 +188,8 @@ function CommentCard(props) {
                             text: "다른 사람들의 리뷰와 감정 분석을 확인해 보세요!"
                         }).then(() => {
                             fetchData();
+                            fetchDataStats();
+                            fetchDataResultAI();
                             setClickEmojiNum("");
                             setSaveContents("");
                             setSavePasswd("");
@@ -208,6 +210,27 @@ function CommentCard(props) {
             const response = await axios.get(url);
             props.setCommentList(response.data.data);
         } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchDataStats = async () => {
+        try {
+            const url = "http://localhost:8080/bookdetail/" + lastSegment;
+            const response = (await axios.get(url)).data;
+            props.setEmojiStats([response.emoji1, response.emoji2, response.emoji3,
+                response.emoji4, response.emoji5, response.emoji6, response.emoji7]);
+        } catch(error) {
+            console.log(error);
+        }
+    };
+
+    const fetchDataResultAI = async () => {
+        try {
+            const url = "http://localhost:8080/bookdetail/resultAI/stats/" + lastSegment;
+            const response = (await axios.get(url)).data;
+            props.setResultAI([response.positive, response.neutral, response.negative]);
+        } catch(error) {
             console.log(error);
         }
     };
