@@ -4,7 +4,6 @@ import writeHand from "../../assets/write-hand.png";
 import { NickNameList } from "../../assets/nickNameList";
 import axios from "axios";
 import swal from "sweetalert";
-import ClovaSentiment from './ClovaTest';
 
 const BookReviewNameOutDiv = styled.div`
     display: flex;
@@ -152,7 +151,7 @@ function CommentCard(props) {
 
     const handleDataUpload = () => {
         (async () => {
-            if(saveContents === '' || clickEmojiNum === '' || savePasswd === '') {
+            if (saveContents === '' || clickEmojiNum === '' || savePasswd === '') {
                 swal({
                     icon: "error",
                     title: "리뷰 등록 실패!",
@@ -162,18 +161,27 @@ function CommentCard(props) {
                 try {
                     const url = "http://localhost:8080/bookdetail/new";
 
-                    const responseSentiment = ClovaSentiment(saveContents);
+
+                    const urlSentiment = "http://localhost:8080/sentiment";
+                    const responseSentiment = await axios.get(urlSentiment, {
+                        params: {
+                            content: saveContents
+                        }
+                    });
+
+                    const resultAI = responseSentiment.data.document.sentiment;
 
                     const response = await axios.post(url, {
                         name: reviewerName,
                         content: saveContents,
                         emoji: clickEmojiNum,
                         isbn: lastSegment,
-                        reviewPw: savePasswd
+                        reviewPw: savePasswd,
+                        resultAI: resultAI
                     });
                     let posts = response.data.data;
 
-                    if(posts === "create comment success") {
+                    if (posts === "create comment success") {
                         swal({
                             icon: "success",
                             title: "리뷰 등록 완료!",
@@ -187,7 +195,7 @@ function CommentCard(props) {
                             setReviewerName(NickNameList[nicknameNum]);
                         })
                     }
-                } catch(error) {
+                } catch (error) {
                     console.log(error);
                 }
             }
@@ -199,7 +207,7 @@ function CommentCard(props) {
             const url = "http://localhost:8080/bookdetail/list/" + lastSegment;
             const response = await axios.get(url);
             props.setCommentList(response.data.data);
-        } catch(error) {
+        } catch (error) {
             console.log(error);
         }
     };

@@ -9,6 +9,7 @@ const EmojiReviewOutDiv = styled.div`
     width: 100%;
     background-color: white;
     padding-bottom : 70px;
+    border-radius: 20px;
 `
 const ImageOutDiv = styled.div`
     width: 100%;

@@ -163,7 +163,7 @@ function EditModal(props) {
                 const url = "http://localhost:8080/bookdetail/editForm/" + props.reviewId;
                 const response = await axios.get(url);
                 setEditForm(response.data);
-            } catch(error) {
+            } catch (error) {
                 console.log(error);
             }
         };
@@ -178,13 +178,24 @@ function EditModal(props) {
 
     const editCommentHandle = async () => {
         try {
-            const url = "http://localhost:8080/bookdetail/edit/" + props.reviewId
+            const url = "http://localhost:8080/bookdetail/edit/" + props.reviewId;
+
+            const urlSentiment = "http://localhost:8080/sentiment";
+            const responseSentiment = await axios.get(urlSentiment, {
+                params: {
+                    content: saveContents
+                }
+            });
+
+            const resultAI = responseSentiment.data.document.sentiment;
+
             const response = await axios.put(url, {
                 content: saveContents,
-                emoji: clickEmojiNum
+                emoji: clickEmojiNum,
+                resultAI: resultAI
             })
-        
-            if(response.data.data === "edit comment success") {
+
+            if (response.data.data === "edit comment success") {
                 swal({
                     title: "리뷰 수정 완료!",
                     text: "리뷰 수정이 완료되었습니다.",
@@ -195,7 +206,7 @@ function EditModal(props) {
                     modalHandle();
                 })
             }
-        } catch(error) {
+        } catch (error) {
             console.log(error);
         }
     }
@@ -208,7 +219,7 @@ function EditModal(props) {
             const url = "http://localhost:8080/bookdetail/list/" + lastSegment;
             const response = await axios.get(url);
             props.setCommentList(response.data.data);
-        } catch(error) {
+        } catch (error) {
             console.log(error);
         }
     };
