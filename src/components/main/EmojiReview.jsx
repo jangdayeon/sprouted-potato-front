@@ -19,8 +19,6 @@ const ImageOutDiv = styled.div`
 const ImagePreview = styled.div`
     font-size : 2.3em;
     padding :0.3em 0.2em 0.2em;
-    
-
 `
 const Imageinput = styled.input`
     display:none;
@@ -32,15 +30,15 @@ const Imageinput = styled.input`
 const Imagelabel = styled.label`
 display : inline-block;
 height: 10px;
-font-size : 1.0em;
+font-size : 0.9em;
 opacity : 50%;
 padding :1em 0.2em;
 cursor: pointer;
 `
 const Listname = styled.div`
-    font-size : 1.3em;
+    font-size : 1.2em;
     font-family: "Pretendard-Regular";
-    padding : 0.2em 0em 0.8em 1.8em;
+    padding : 0.2em 0em 1em 2.5em;
     font-weight: 700;
 `
 const ListBr = styled.hr`
@@ -206,16 +204,24 @@ function EmojiReview() {
             </ListDiv>
             <ListBr/>
             <Listname><FontAwesomeIcon icon={faRobot} /> AI가 분석한 긍정적인 후기 순</Listname>
+            <ListDiv>
             <ListSet bookList={bookList2}/>
+            </ListDiv>
             <ListBr/>
             <Listname><FontAwesomeIcon icon={faThumbsUp} /> 긍정적인 후기 순</Listname>
+            <ListDiv>
             <ListSet bookList={bookList3}/>
+            </ListDiv>
             <ListBr/>
             <Listname><FontAwesomeIcon icon={faComments} /> 리뷰 많은 순</Listname>
+            <ListDiv>
             <ListSet bookList={bookList4}/>
+            </ListDiv>
             <ListBr/>
             <Listname><FontAwesomeIcon icon={faBookBookmark} /> 알라딘 베스트셀러</Listname>
+            <ListDiv>
             <ListSet bookList={bookList5}/>
+            </ListDiv>
         </EmojiReviewOutDiv>
     )
 }
