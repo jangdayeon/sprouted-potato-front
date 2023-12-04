@@ -24,7 +24,7 @@ const BookListContainer = styled.div`
 const BookImage = styled.img`
   width: 100%;
   height: 12em;
-  border-radius: 2px;
+  border-radius: 7px;
 `;
 const BookListContent = styled.div`
 `;

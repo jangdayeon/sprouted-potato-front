@@ -20,8 +20,6 @@ const ImageOutDiv = styled.div`
 const ImagePreview = styled.div`
     font-size : 2.3em;
     padding :0.3em 0.2em 0.2em;
-    
-
 `
 const Imageinput = styled.input`
     display:none;
@@ -33,15 +31,15 @@ const Imageinput = styled.input`
 const Imagelabel = styled.label`
 display : inline-block;
 height: 10px;
-font-size : 1.0em;
+font-size : 0.9em;
 opacity : 50%;
 padding :1em 0.2em;
 cursor: pointer;
 `
 const Listname = styled.div`
-    font-size : 1.3em;
+    font-size : 1.2em;
     font-family: "Pretendard-Regular";
-    padding : 0.2em 0em 0.8em 1.8em;
+    padding : 0.2em 0em 1em 2.5em;
     font-weight: 700;
 `
 const ListBr = styled.hr`
@@ -60,8 +58,6 @@ function EmojiReview() {
     const [radioTextClicked, setRadioTextClicked] = useState("재밌어요");
 
     const handleChange = (e) => {
-        // console.log(`*****handleChange*****`);
-        // console.log(`선택한 값 : ${e.target.value}`);
         setRadioClicked(e.target.value);
       };
       
@@ -83,14 +79,11 @@ function EmojiReview() {
         const fetchData = async () => {
             try {
               const url = 'http://localhost:8080/main/1/'+radioClicked;
-              console.log(url);
               const response = await axios.get(url);
               const responseData = response.data.data;
               setBookList1(responseData);
-              console.log(responseData);
       
             } catch(error) {
-              console.log(error);
             }
           };
       
@@ -108,7 +101,6 @@ function EmojiReview() {
         //   const response = await axios.get(url);
         //   const responseData = response.data.data;
         //   setBookList2(responseData.concat(responseData));
-        //   console.log(responseData);
   
         } catch(error) {
           console.log(error);
@@ -127,7 +119,6 @@ function EmojiReview() {
           const response = await axios.get(url);
           const responseData = response.data.data;
           setBookList3(responseData);
-          console.log(responseData);
   
         } catch(error) {
           console.log(error);
@@ -146,7 +137,6 @@ function EmojiReview() {
           const response = await axios.get(url);
           const responseData = response.data.data;
           setBookList4(responseData);
-          console.log(responseData);
   
         } catch(error) {
           console.log(error);
@@ -165,7 +155,6 @@ function EmojiReview() {
           const response = await axios.get(url);
           const responseData = response.data.data;
           setBookList5(responseData);
-          console.log(responseData);
   
         } catch(error) {
           console.log(error);
@@ -216,16 +205,24 @@ function EmojiReview() {
             </ListDiv>
             <ListBr/>
             <Listname><FontAwesomeIcon icon={faRobot} /> AI가 분석한 긍정적인 후기 순</Listname>
+            <ListDiv>
             <ListSet bookList={bookList2}/>
+            </ListDiv>
             <ListBr/>
             <Listname><FontAwesomeIcon icon={faThumbsUp} /> 긍정적인 후기 순</Listname>
+            <ListDiv>
             <ListSet bookList={bookList3}/>
+            </ListDiv>
             <ListBr/>
             <Listname><FontAwesomeIcon icon={faComments} /> 리뷰 많은 순</Listname>
+            <ListDiv>
             <ListSet bookList={bookList4}/>
+            </ListDiv>
             <ListBr/>
             <Listname><FontAwesomeIcon icon={faBookBookmark} /> 알라딘 베스트셀러</Listname>
+            <ListDiv>
             <ListSet bookList={bookList5}/>
+            </ListDiv>
         </EmojiReviewOutDiv>
     )
 }
