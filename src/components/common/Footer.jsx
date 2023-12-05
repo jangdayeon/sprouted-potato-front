@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from 'styled-components';
 import logo from "../../assets/potato-logo.png"
 
@@ -9,7 +9,7 @@ const FooterOutDiv = styled.div`
     border-radius: 20px 20px 0 0;
     box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.16);
     margin-top: 30px;
-    ${(props) => ((props.SearchResultLength == 1) ? "position: absolute; bottom: 0" : "")}
+    ${(props) => ((props.SearchResultLength == 1 || props.SearchResultLength == 0) ? "position: absolute; bottom: 0" : "")}
 `
 
 const ImageTextOutDiv = styled.div`

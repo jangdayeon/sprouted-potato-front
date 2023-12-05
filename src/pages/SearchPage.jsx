@@ -18,14 +18,14 @@ const SearchPageOutDiv = styled.div`
 
 const SearchMent = styled.div`
     font-size: 19px;
-    margin: 0 auto;
     padding-top: 30px;
     padding-bottom: 30px;
-    width: 90%;
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-all;
+    text-align: center;
     
     >svg {
         width: 17px;
