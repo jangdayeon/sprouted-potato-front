@@ -98,7 +98,6 @@ function SearchPage() {
     }, [lastSegment]);
     
     const goBookDetailPage = (isbn) => {
-        console.log(isbn);
         navigate(`/bookdetail/${isbn}`);
     }
 

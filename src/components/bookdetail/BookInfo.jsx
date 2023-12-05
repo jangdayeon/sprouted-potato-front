@@ -90,56 +90,89 @@ function BookInfo() {
     const [firstPart, setFirstPart] = useState('');
     const [secondPart, setSecondPart] = useState('');
 
+    const [originalString, setOriginalString] = useState("");
+
+    // 대체할 기호들과 대체될 값들을 정의합니다.
+    const replacements = {
+      "&nbsp;": " ",
+      "&lt;": "<",
+      "&gt;": ">",
+      "&amp;": "&",
+      "&quot;": "\"",
+      "&#035;": "#",
+      "&#039;": "'"
+    };
+
+
     const currentPath = window.location.pathname;
     const lastSegment = currentPath.substring(currentPath.lastIndexOf('/') + 1);
-    useEffect(() => {
-        const BookData = async () => {
-          try {
-            const response = await axios.get(`http://localhost:8080/booksDetail/`+lastSegment);
+
+    // 문자열을 수정하는 함수
+    const modifyString = (originalString) => {
+        let modifiedString = originalString;
+
+        // 대체 작업을 수행합니다.
+        for (const key in replacements) {
+            modifiedString = modifiedString.split(key).join(replacements[key]);
+        }
+
+        // 수정된 문자열을 설정합니다.
+        setOriginalString(modifiedString);
+    };
+
+
+useEffect(() => {
+    const BookData = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/booksDetail/` + lastSegment);
             const data = response.data.data;
             setBookInfo(data);
+
+            const detail = data.description;
+            modifyString(detail);
+
             const title = data.title;
-    
+
             // "-"를 기준으로 나누기
             const firstHyphenIndex = title.indexOf(" - ");
-    
+
             // "-"가 없는 경우
             if (firstHyphenIndex === -1) {
-              setFirstPart(title);
-              setSecondPart('');
+                setFirstPart(title);
+                setSecondPart('');
             } else {
-              // 첫 번째 부분 설정
-              setFirstPart(title.slice(0, firstHyphenIndex));
-    
-              // 두 번째 부분 설정 (첫 번째 "-" 이후의 부분)
-              setSecondPart(title.slice(firstHyphenIndex));
-            }
-          } catch (error) {
-            console.error("Error fetching user data", error);
-          }
-        };
-    
-        BookData();
-      }, []);
-    const [isInfoExpanded, setIsInfoExpanded] = useState(false);
+                // 첫 번째 부분 설정
+                setFirstPart(title.slice(0, firstHyphenIndex));
 
-    return (
-        <BookInfoOutDiv>
-            <BookImgTitleOutDiv>
-                <BookImg src={bookInfo.cover}></BookImg>
-                <BookTitleAuthorOutDiv>
-                    <BookTitle>{firstPart}</BookTitle>
-                    <BookSubTitle>{secondPart}</BookSubTitle>
-                    <BookAuthor>{bookInfo.author}</BookAuthor>
-                    <BookPublisher>{bookInfo.publisher}</BookPublisher>
-                </BookTitleAuthorOutDiv>
-            </BookImgTitleOutDiv>
-            <CategoryName><FontAwesomeIcon icon={faFolder} />카테고리</CategoryName>
-            <BookCategory>{bookInfo.categoryName}</BookCategory>
-            <DescriptionName onClick={() => setIsInfoExpanded(!isInfoExpanded)} isInfoExpanded={isInfoExpanded}><FontAwesomeIcon icon={faCircleInfo} />책 정보</DescriptionName>
-            {isInfoExpanded && <BookDescription>{bookInfo.description}</BookDescription>}
-        </BookInfoOutDiv>
-    )
+                // 두 번째 부분 설정 (첫 번째 "-" 이후의 부분)
+                setSecondPart(title.slice(firstHyphenIndex));
+            }
+        } catch (error) {
+            console.error("Error fetching user data", error);
+        }
+    };
+
+    BookData();
+}, []);
+const [isInfoExpanded, setIsInfoExpanded] = useState(false);
+
+return (
+    <BookInfoOutDiv>
+        <BookImgTitleOutDiv>
+            <BookImg src={bookInfo.cover}></BookImg>
+            <BookTitleAuthorOutDiv>
+                <BookTitle>{firstPart}</BookTitle>
+                <BookSubTitle>{secondPart}</BookSubTitle>
+                <BookAuthor>{bookInfo.author}</BookAuthor>
+                <BookPublisher>{bookInfo.publisher}</BookPublisher>
+            </BookTitleAuthorOutDiv>
+        </BookImgTitleOutDiv>
+        <CategoryName><FontAwesomeIcon icon={faFolder} />카테고리</CategoryName>
+        <BookCategory>{bookInfo.categoryName}</BookCategory>
+        <DescriptionName onClick={() => setIsInfoExpanded(!isInfoExpanded)} isInfoExpanded={isInfoExpanded}><FontAwesomeIcon icon={faCircleInfo} />책 정보</DescriptionName>
+        {isInfoExpanded && <BookDescription>{originalString}</BookDescription>}
+    </BookInfoOutDiv>
+)
 }
 
 export default BookInfo;
