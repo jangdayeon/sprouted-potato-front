@@ -24,21 +24,25 @@ const Main = styled.div`
   width: 50%;
 `
 
-export const Data = {
-  labels: ["긍정", "중립", "부정"],
-  datasets: [
-    {
-      data: [40, 20, 35],
-      backgroundColor: ["#FDF6C2", "#CFF6FF", "#DAF5D3"],
-      borderColor: ["#FDF6C2", "#CFF6FF", "#DAF5D3"],
-    },
-  ],
-};
+interface resultAIStatsType {
+  resultAI: number;
+}
 
 export const Options = {};
 
-export default function AssetDoughnutChart() {
+export default function AssetDoughnutChart(props:resultAIStatsType) {
   const chartId = 'myUniqueDoughnutChartId';
+
+  const Data = {
+    labels: ["긍정", "중립", "부정"],
+    datasets: [
+      {
+        data: props.resultAI,
+        backgroundColor: ["#FDF6C2", "#CFF6FF", "#DAF5D3"],
+        borderColor: ["#FDF6C2", "#CFF6FF", "#DAF5D3"],
+      },
+    ],
+  };
 
   return (
     <Main>

@@ -26,15 +26,21 @@ function BookDetailPage() {
     const [commentList, setCommentList] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [reviewId, setReviewId] = useState();
+    const [emojiStats, setEmojiStats] = useState([]);
+    const [resultAI, setResultAI] = useState({
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0
+    });
 
     return (
         <>
         <BookDetailOutDiv>
             <BookInfoStatisticsOutDiv>
                 <BookInfo />
-                <ReviewStatistics />
+                <ReviewStatistics emojiStats={emojiStats} setEmojiStats={setEmojiStats} resultAI={resultAI} setResultAI={setResultAI} />
             </BookInfoStatisticsOutDiv>
-            <CommentCard setCommentList={setCommentList}  />
+            <CommentCard setCommentList={setCommentList} setEmojiStats={setEmojiStats} setResultAI={setResultAI} />
             <BookCommentList commentList={commentList} setCommentList={setCommentList} 
                 setIsOpen={setIsOpen} setReviewId={setReviewId}/>
             {isOpen && <EditModal setIsOpen={setIsOpen} reviewId={reviewId} setCommentList={setCommentList} />}

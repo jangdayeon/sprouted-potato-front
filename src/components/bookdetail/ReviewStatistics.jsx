@@ -49,25 +49,33 @@ const ChartOutDiv = styled.div`
 `
 
 
-function ReviewStatistics() {
-
-    const [emojiStats, setEmojiStats] = useState([]);
-
+function ReviewStatistics(props) {
     const currentPath = window.location.pathname;
     const lastSegment = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+
+    const fetchDataResultAI = async () => {
+        try {
+            const url = "http://localhost:8080/bookdetail/resultAI/stats/" + lastSegment;
+            const response = (await axios.get(url)).data;
+            props.setResultAI([response.positive, response.neutral, response.negative]);
+        } catch(error) {
+            console.log(error);
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const url = "http://localhost:8080/bookdetail/" + lastSegment;
                 const response = (await axios.get(url)).data;
-                setEmojiStats([response.emoji1, response.emoji2, response.emoji3,
+                props.setEmojiStats([response.emoji1, response.emoji2, response.emoji3,
                     response.emoji4, response.emoji5, response.emoji6, response.emoji7]);
             } catch(error) {
                 console.log(error);
             }
         };
 
+        fetchDataResultAI();
         fetchData();
     }, []);
 
@@ -78,14 +86,14 @@ function ReviewStatistics() {
                 <ReviewStatisticsName>이모티콘으로 나타낸 리뷰 통계</ReviewStatisticsName>
             </EmojiNameOutDiv>
             <BarChartOutDiv>
-                <BarChart emojiStats={emojiStats} />
+                <BarChart emojiStats={props.emojiStats} />
             </BarChartOutDiv>
             <ReviewAI>
                 <EmojiStatisticsEmoji src={emojiStatistics}></EmojiStatisticsEmoji>
                 <ReviewAIName>AI가 보는 리뷰 통계</ReviewAIName>
             </ReviewAI>
             <ChartOutDiv>
-                <DoughnutChart />
+                <DoughnutChart resultAI={props.resultAI} />
             </ChartOutDiv>
         </ReviewStatisticsOutDiv>
     )
