@@ -4,6 +4,7 @@ import { useLocation } from "react-router";
 import styled from 'styled-components';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import Footer from "../components/common/Footer";
 import axios from "axios";
 
 const SearchPageOutDiv = styled.div`
@@ -56,7 +57,7 @@ const SearchTitle = styled.div`
     margin-bottom: 8px;
     font-weight: bold;
     font-size: 17px;
-    width: 40rem;
+    width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -85,7 +86,8 @@ function SearchPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const url = "http://localhost:8080/search/" + lastSegment;
+                const stringWithoutSpaces = lastSegment.replace(/\s/g, '');
+                const url = "http://localhost:8080/search/" + stringWithoutSpaces;
                 const response = await axios.get(url);
                 setSearchValue(lastSegment);
                 setSearchResult(response.data.data);
@@ -102,6 +104,7 @@ function SearchPage() {
     }
 
     return (
+        <>
         <SearchPageOutDiv>
             <SearchMent><FontAwesomeIcon icon={faMagnifyingGlass} />검색하신 '<span>{SearchValue}</span>'에 관한 검색 결과입니다. </SearchMent>
             {SearchResult.map((book) => {
@@ -117,6 +120,8 @@ function SearchPage() {
                 )
             })}
         </SearchPageOutDiv>
+        <Footer SearchResultLength={SearchResult.length} />
+        </>
     )
 }
 

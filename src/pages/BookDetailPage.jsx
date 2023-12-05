@@ -6,6 +6,7 @@ import ReviewStatistics from "../components/bookdetail/ReviewStatistics";
 import CommentCard from "../components/bookdetail/CommentCard";
 import BookCommentList from '../components/bookdetail/BookCommentList';
 import EditModal from '../components/bookdetail/EditModal';
+import Footer from '../components/common/Footer';
 
 const BookDetailOutDiv = styled.div`
     width: 78%;
@@ -45,6 +46,7 @@ function BookDetailPage() {
                 setIsOpen={setIsOpen} setReviewId={setReviewId}/>
             {isOpen && <EditModal setIsOpen={setIsOpen} reviewId={reviewId} setCommentList={setCommentList} />}
         </BookDetailOutDiv>
+        <Footer />
         </>
     )
 }
