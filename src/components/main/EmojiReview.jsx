@@ -97,10 +97,10 @@ function EmojiReview() {
     useEffect(() => {
       const fetchData = async () => {
         try {
-        //   const url = 'http://localhost:8080/main/2';
-        //   const response = await axios.get(url);
-        //   const responseData = response.data.data;
-        //   setBookList2(responseData.concat(responseData));
+          const url = 'http://localhost:8080/main/2';
+          const response = await axios.get(url);
+          const responseData = response.data.data;
+          setBookList2(responseData);
   
         } catch(error) {
           console.log(error);

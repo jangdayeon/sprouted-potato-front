@@ -75,7 +75,7 @@ const SearchAuthor = styled.div`
 const SearchPublisher = styled.div``
 
 function SearchPage() {
-    const [SearchValue, setSearchValue] = useState('푸바오');
+    const [SearchValue, setSearchValue] = useState('');
     const [SearchResult, setSearchResult] = useState([]);
     const navigate = useNavigate();
     const { state } = useLocation();
