@@ -106,6 +106,7 @@ function SearchPage() {
     }, [lastSegment]);
     
     const goBookDetailPage = (isbn) => {
+        window.scrollTo(0, 0);
         navigate(`/bookdetail/${isbn}`);
     }
 

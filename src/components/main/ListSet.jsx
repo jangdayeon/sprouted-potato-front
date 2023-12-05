@@ -65,6 +65,7 @@ function ListSet(props) {
 
   const navigate = useNavigate();
   const goDetailPage = (isbn) => {
+    window.scrollTo(0, 0);
     navigate(`/bookDetail/`+isbn);
   };
 
