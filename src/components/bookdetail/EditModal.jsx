@@ -160,7 +160,7 @@ function EditModal(props) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const url = "http://localhost:8080/bookdetail/editForm/" + props.reviewId;
+                const url = "http://15.164.218.30/bookdetail/editForm/" + props.reviewId;
                 const response = await axios.get(url);
                 setEditForm(response.data);
             } catch (error) {
@@ -178,9 +178,9 @@ function EditModal(props) {
 
     const editCommentHandle = async () => {
         try {
-            const url = "http://localhost:8080/bookdetail/edit/" + props.reviewId;
+            const url = "http://15.164.218.30/bookdetail/edit/" + props.reviewId;
 
-            const urlSentiment = "http://localhost:8080/sentiment";
+            const urlSentiment = "http://15.164.218.30/sentiment";
             const responseSentiment = await axios.get(urlSentiment, {
                 params: {
                     content: saveContents
@@ -216,7 +216,7 @@ function EditModal(props) {
 
     const fetchData = async () => {
         try {
-            const url = "http://localhost:8080/bookdetail/list/" + lastSegment;
+            const url = "http://15.164.218.30/bookdetail/list/" + lastSegment;
             const response = await axios.get(url);
             props.setCommentList(response.data.data);
         } catch (error) {

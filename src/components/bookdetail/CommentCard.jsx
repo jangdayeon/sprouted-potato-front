@@ -159,10 +159,10 @@ function CommentCard(props) {
                 });
             } else {
                 try {
-                    const url = "http://localhost:8080/bookdetail/new";
+                    const url = "http://15.164.218.30/bookdetail/new";
 
 
-                    const urlSentiment = "http://localhost:8080/sentiment";
+                    const urlSentiment = "http://15.164.218.30/sentiment";
                     const responseSentiment = await axios.get(urlSentiment, {
                         params: {
                             content: saveContents
@@ -206,7 +206,7 @@ function CommentCard(props) {
 
     const fetchData = async () => {
         try {
-            const url = "http://localhost:8080/bookdetail/list/" + lastSegment;
+            const url = "http://15.164.218.30/bookdetail/list/" + lastSegment;
             const response = await axios.get(url);
             props.setCommentList(response.data.data);
         } catch (error) {
@@ -216,7 +216,7 @@ function CommentCard(props) {
 
     const fetchDataStats = async () => {
         try {
-            const url = "http://localhost:8080/bookdetail/" + lastSegment;
+            const url = "http://15.164.218.30/bookdetail/" + lastSegment;
             const response = (await axios.get(url)).data;
             props.setEmojiStats([response.emoji1, response.emoji2, response.emoji3,
                 response.emoji4, response.emoji5, response.emoji6, response.emoji7]);
@@ -227,7 +227,7 @@ function CommentCard(props) {
 
     const fetchDataResultAI = async () => {
         try {
-            const url = "http://localhost:8080/bookdetail/resultAI/stats/" + lastSegment;
+            const url = "http://15.164.218.30/bookdetail/resultAI/stats/" + lastSegment;
             const response = (await axios.get(url)).data;
             props.setResultAI([response.positive, response.neutral, response.negative]);
         } catch(error) {

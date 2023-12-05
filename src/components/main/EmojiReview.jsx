@@ -78,7 +78,7 @@ function EmojiReview() {
         }
         const fetchData = async () => {
             try {
-              const url = 'http://localhost:8080/main/1/'+radioClicked;
+              const url = 'http://15.164.218.30/main/1/'+radioClicked;
               const response = await axios.get(url);
               const responseData = response.data.data;
               setBookList1(responseData);
@@ -97,7 +97,7 @@ function EmojiReview() {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const url = 'http://localhost:8080/main/2';
+          const url = 'http://15.164.218.30/main/2';
           const response = await axios.get(url);
           const responseData = response.data.data;
           setBookList2(responseData);
@@ -115,7 +115,7 @@ function EmojiReview() {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const url = 'http://localhost:8080/main/3';
+          const url = 'http://15.164.218.30/main/3';
           const response = await axios.get(url);
           const responseData = response.data.data;
           setBookList3(responseData);
@@ -133,7 +133,7 @@ function EmojiReview() {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const url = 'http://localhost:8080/main/4';
+          const url = 'http://15.164.218.30/main/4';
           const response = await axios.get(url);
           const responseData = response.data.data;
           setBookList4(responseData);
@@ -151,7 +151,7 @@ function EmojiReview() {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const url = 'http://localhost:8080/bestseller';
+          const url = 'http://15.164.218.30/bestseller';
           const response = await axios.get(url);
           const responseData = response.data.data;
           setBookList5(responseData);

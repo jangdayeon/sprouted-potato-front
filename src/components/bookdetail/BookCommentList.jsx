@@ -138,7 +138,7 @@ function BookCommentList(props) {
 
     const fetchData = async () => {
         try {
-            const url = "http://localhost:8080/bookdetail/list/" + lastSegment;
+            const url = "http://15.164.218.30/bookdetail/list/" + lastSegment;
             const response = await axios.get(url);
             props.setCommentList(response.data.data);
         } catch(error) {
@@ -149,7 +149,7 @@ function BookCommentList(props) {
     const deleteData = (reviewId) => {
         (async () => {
             try {
-                const url = "http://localhost:8080/bookdetail/delete/" + reviewId;
+                const url = "http://15.164.218.30/bookdetail/delete/" + reviewId;
                 const response = await axios.post(url, {
                     passwd: savePasswd
                 });
@@ -191,7 +191,7 @@ function BookCommentList(props) {
 
     const passwdCheck = async (reviewId) => {
         try {
-            const url = "http://localhost:8080/bookdetail/passwd";
+            const url = "http://15.164.218.30/bookdetail/passwd";
             const response = await axios.get(url,{ params: {
                 reviewId: reviewId,
                 passwd: savePasswd

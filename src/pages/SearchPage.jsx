@@ -93,7 +93,7 @@ function SearchPage() {
         const fetchData = async () => {
             try {
                 const stringWithoutSpaces = lastSegment.replace(/\s/g, '');
-                const url = "http://localhost:8080/search/" + stringWithoutSpaces;
+                const url = "http://15.164.218.30/search/" + stringWithoutSpaces;
                 const response = await axios.get(url);
                 setSearchValue(lastSegment);
                 setSearchResult(response.data.data);

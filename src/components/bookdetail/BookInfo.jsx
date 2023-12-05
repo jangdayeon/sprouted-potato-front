@@ -124,7 +124,7 @@ function BookInfo() {
 useEffect(() => {
     const BookData = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/booksDetail/` + lastSegment);
+            const response = await axios.get(`http://15.164.218.30/booksDetail/` + lastSegment);
             const data = response.data.data;
             setBookInfo(data);
 

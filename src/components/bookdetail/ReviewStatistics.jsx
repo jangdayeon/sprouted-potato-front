@@ -55,7 +55,7 @@ function ReviewStatistics(props) {
 
     const fetchDataResultAI = async () => {
         try {
-            const url = "http://localhost:8080/bookdetail/resultAI/stats/" + lastSegment;
+            const url = "http://15.164.218.30/bookdetail/resultAI/stats/" + lastSegment;
             const response = (await axios.get(url)).data;
             props.setResultAI([response.positive, response.neutral, response.negative]);
         } catch(error) {
@@ -66,7 +66,7 @@ function ReviewStatistics(props) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const url = "http://localhost:8080/bookdetail/" + lastSegment;
+                const url = "http://15.164.218.30/bookdetail/" + lastSegment;
                 const response = (await axios.get(url)).data;
                 props.setEmojiStats([response.emoji1, response.emoji2, response.emoji3,
                     response.emoji4, response.emoji5, response.emoji6, response.emoji7]);
