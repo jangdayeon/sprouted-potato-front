@@ -21,7 +21,12 @@ const SearchMent = styled.div`
     margin: 0 auto;
     padding-top: 30px;
     padding-bottom: 30px;
-    width: max-content;
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    
     >svg {
         width: 17px;
         height: 17px;
@@ -51,24 +56,25 @@ const SearchImg = styled.img`
 
 const SearchTitleAuthorOutDiv = styled.div`
     margin-top: 3px;
+    
+    width: 80%;
+
 `
 
 const SearchTitle = styled.div`
     margin-bottom: 8px;
     font-weight: bold;
     font-size: 17px;
-    width: 100%;
-    overflow: hidden;
     white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-all;
 `
 
 const SearchAuthor = styled.div`
     margin-bottom: 3px;
-    width: 40rem;
-    overflow: hidden;
     white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-all;
 `

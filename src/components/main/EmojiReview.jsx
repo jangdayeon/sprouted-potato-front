@@ -46,7 +46,7 @@ const ListBr = styled.hr`
     background-color : #CECECE ;
     border : 0;
     width : 95%;
-    height : 0.1em;
+    height : 1px;
     margin : 1.5em auto;
 `
 const ListDiv = styled.div`
