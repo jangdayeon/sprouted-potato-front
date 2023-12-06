@@ -43,8 +43,8 @@ function BookDetailPage() {
             </BookInfoStatisticsOutDiv>
             <CommentCard setCommentList={setCommentList} setEmojiStats={setEmojiStats} setResultAI={setResultAI} />
             <BookCommentList commentList={commentList} setCommentList={setCommentList} 
-                setIsOpen={setIsOpen} setReviewId={setReviewId}/>
-            {isOpen && <EditModal setIsOpen={setIsOpen} reviewId={reviewId} setCommentList={setCommentList} />}
+                setIsOpen={setIsOpen} setReviewId={setReviewId} setEmojiStats={setEmojiStats} setResultAI={setResultAI}/>
+            {isOpen && <EditModal setIsOpen={setIsOpen} reviewId={reviewId} setCommentList={setCommentList} setEmojiStats={setEmojiStats} setResultAI={setResultAI} />}
         </BookDetailOutDiv>
         <Footer />
         </>

@@ -161,6 +161,9 @@ function BookCommentList(props) {
                         title: "리뷰 삭제 완료!",
                         text: "리뷰가 삭제되었습니다.",
                         icon: "success"
+                    }).then(() => {
+                        fetchDataStats();
+                        fetchDataResultAI();
                     })
                 } else if(posts === "passwd is wrong") {
                     swal({
@@ -208,6 +211,27 @@ function BookCommentList(props) {
                     text: "비밀번호가 맞지 않으므로 수정이 불가합니다."
                 })
             }
+        } catch(error) {
+            console.log(error);
+        }
+    };
+
+    const fetchDataStats = async () => {
+        try {
+            const url = "http://15.164.218.30/bookdetail/" + lastSegment;
+            const response = (await axios.get(url)).data;
+            props.setEmojiStats([response.emoji1, response.emoji2, response.emoji3,
+                response.emoji4, response.emoji5, response.emoji6, response.emoji7]);
+        } catch(error) {
+            console.log(error);
+        }
+    };
+
+    const fetchDataResultAI = async () => {
+        try {
+            const url = "http://15.164.218.30/bookdetail/resultAI/stats/" + lastSegment;
+            const response = (await axios.get(url)).data;
+            props.setResultAI([response.positive, response.neutral, response.negative]);
         } catch(error) {
             console.log(error);
         }
